@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #E8B431;
+  --dark: #0F172A;
+  --text: #1E293B;
+}
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Poppins', 'Montserrat',sans-serif;
+  background: #FFFEFB;
+  color: var(--text);
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+}
+
+#root {
+  position: relative;
+  overflow-x: hidden;
+  width: 100%;
+}
+#root::before {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 9999px;
+  background: rgba(232, 180, 49, 0.18);
+  top: 250px;
+  left: -10px;
+  filter: blur(80px);
+  z-index: -1;
+}
+
+#root::after {
+  content: "";
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  border-radius: 9999px;
+  background: rgba(232, 180, 49, 0.14);
+  top: 850px;
+  right: -30px;
+  filter: blur(50px);
+  z-index: -1;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.container-custom {
+  @apply max-w-7xl mx-auto px-5 lg:px-10;
+}
