@@ -48,6 +48,45 @@ const FormResep = ({ onSubmit,dataEdit }: RecipeFormProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!formData.name) {
+      toast('Nama resep wajib diisi !', {
+        icon: '⚠️',
+      })
+      return
+    }
+    if (!formData.category_id) {
+      toast('Pilih category terlebih dahulu !', {
+        icon: '⚠️',
+      })
+      return
+    }
+    
+    if (!formData.cooking_duration) {
+      toast('Durasi wajib diisi !', {
+        icon: '⚠️',
+      })
+      return
+    }
+    if (!formData.description) {
+      toast('Description wajib diisi !', {
+        icon: '⚠️',
+      })
+      return
+    }
+    
+    if (ingredients.every(item => item.trim() === '')) {
+      toast('Pastikan bahan-bahan diisi!', {
+        icon: '⚠️',
+      })
+      return
+    }
+    if (instructions.every(item => item.trim() === '')) {
+      toast('Pastika Instruksi Masak diisi !', {
+        icon: '⚠️',
+      })
+      return
+    }
+
     if (onSubmit) {
       onSubmit({
         ...formData,

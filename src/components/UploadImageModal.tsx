@@ -59,9 +59,10 @@ const UploadImageModal = ({ isOpen, onClose, onUpload,loadingUpload }: UploadIma
     }
   }
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (selectedFile) {
-      onUpload(selectedFile)
+      const compressedFile = await compressImage(selectedFile)
+      onUpload(compressedFile)
     }
   }
   const handleClose = () => {
@@ -69,6 +70,47 @@ const UploadImageModal = ({ isOpen, onClose, onUpload,loadingUpload }: UploadIma
     setPreview(null)
     setIsDragging(false)
     onClose()
+  }
+  const compressImage = (file: File): Promise<File> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = (event) => {
+        const img = new Image()
+        img.src = event.target?.result as string
+
+        img.onload = () => {
+          const canvas = document.createElement('canvas')
+          const ctx = canvas.getContext('2d')
+
+          const MAX_WIDTH = 1280
+          const scaleSize = MAX_WIDTH / img.width
+
+          canvas.width = MAX_WIDTH
+          canvas.height = img.height * scaleSize
+
+          ctx?.drawImage(img, 0, 0, canvas.width, canvas.height)
+
+          canvas.toBlob(
+            (blob) => {
+              if (!blob) return
+
+              const compressedFile = new File(
+                [blob],
+                file.name,
+                {
+                  type: 'image/jpeg',
+                  lastModified: Date.now(),
+                }
+              )
+              resolve(compressedFile)
+            },
+            'image/jpeg',
+            0.8
+          )
+        }
+      }
+    })
   }
   if (!isOpen) return null
 
@@ -91,7 +133,7 @@ const UploadImageModal = ({ isOpen, onClose, onUpload,loadingUpload }: UploadIma
             <X size={24} />
           </button>
         </div>
-        <div className="px-5 pb-6 overflow-y-auto flex-1">
+        <div className="px-10 pb-6 overflow-y-auto flex-1">
           <div
             onDrop={handleDrop}
             onDragOver={handleDragOver}

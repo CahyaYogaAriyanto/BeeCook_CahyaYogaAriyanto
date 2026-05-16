@@ -103,10 +103,10 @@ const MenuDetailPage = () => {
           <div className="space-y-6">
             {menu.recipes?.map((item: any, index: number) => (
               <div key={index} className="flex gap-4">
-                <div className="w-8 h-8 rounded-full bg-[#E8B431]  text-black flex items-center justify-center text-sm font-bold">
+                <div className="min-w-10 w-10 h-10 rounded-full bg-[#E8B431] text-black flex items-center justify-center text-lg font-bold shrink-0">
                   {index + 1}
                 </div>
-                <p>{item.description}</p>
+                <p className="flex-1 text-gray-700 leading-relaxed pt-1">{item.description}</p>
               </div>
             ))}
           </div>
